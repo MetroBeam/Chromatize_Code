@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@null"
+        android:layout_gravity="center"
+        android:id="@+id/stroke_view"
+        android:src="@drawable/stroke"
+        />
+
+    <ImageView
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:background="@null"
+        android:layout_gravity="center"
+        android:id="@+id/permanent_stroke_view"
+        android:src="@drawable/permanent_stroke"
+        />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/list_box"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        />
+
+
+</FrameLayout>

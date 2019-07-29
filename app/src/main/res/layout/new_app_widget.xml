@@ -1,0 +1,131 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="90dp"
+    android:background="@drawable/rounded_rectangle"
+    android:layout_gravity="top|center">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:fontFamily="casual"
+        android:layout_gravity="center|top"
+        android:textSize="17sp"
+        android:id="@+id/topic_text"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/settings"
+        android:id="@+id/settings"
+        android:layout_gravity="top|right"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/pencil"
+        android:id="@+id/pen"
+        android:layout_gravity="top|left"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+       >
+
+   <FrameLayout
+       android:layout_width="31dp"
+       android:layout_height="31dp"
+       android:layout_margin="5dp"
+       android:background="@drawable/stroke"
+       android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/colour_button_one"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/appwidget_text"
+        android:background="#4c4000"
+        />
+
+   </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke"
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+
+        <TextView
+        android:id="@+id/colour_button_two"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/appwidget_text"
+        android:background="#37442a"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke"
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/colour_button_three"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/appwidget_text"
+        android:background="#228b22"/>
+
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke"
+            android:layout_gravity="center"
+            android:layout_margin="1dp">
+
+    <TextView
+        android:id="@+id/colour_button_four"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/appwidget_text"
+        android:background="#32cd32"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke"
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/colour_button_five"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/appwidget_text"
+        android:background="#3cd070"/>
+
+        </FrameLayout>
+
+</LinearLayout>
+
+
+
+    </FrameLayout>
