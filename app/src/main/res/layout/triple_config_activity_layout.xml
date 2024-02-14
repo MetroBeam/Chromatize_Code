@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:layout_gravity="center_horizontal">
+
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="7dp"
+        android:background="@color/offoffwhite"
+        android:src="@drawable/gridicon"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/grid_link"
+
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"
+        android:id="@+id/edit_text"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:maxLength="32"
+        android:maxLines="1"
+        android:inputType="text"
+        android:layout_toLeftOf="@+id/confirm_box"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp">
+    </EditText>
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_margin="5dp"
+        android:layout_height="50dp"
+        android:visibility="invisible"
+        android:id="@+id/confirm_box"
+        android:layout_alignParentRight="true"/>
+
+        <android.support.v7.widget.RecyclerView
+          android:layout_width="wrap_content"
+          android:layout_height="50dp"
+            android:id="@+id/box_list"
+            android:layout_below="@id/edit_text"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:layout_alignParentLeft="true">
+
+      </android.support.v7.widget.RecyclerView>
+
+
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_margin="5dp"
+        android:layout_height="50dp"
+        android:src="@drawable/plus"
+        android:id="@+id/add_box"
+        android:layout_below="@id/edit_text"
+        android:layout_toEndOf="@id/box_list" />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_below="@id/box_list"
+    android:layout_alignParentBottom="true">
+
+    <com.flask.colorpicker.ColorPickerView
+        android:id="@+id/color_picker_view"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:visibility="gone"
+
+        />
+        <com.flask.colorpicker.slider.LightnessSlider
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/slider"
+            android:visibility="gone"
+            android:layout_weight="4"
+            />
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/checked"
+            android:id="@+id/capture_config_confirm_button"
+            />
+
+
+</LinearLayout>
+
+
+</RelativeLayout>

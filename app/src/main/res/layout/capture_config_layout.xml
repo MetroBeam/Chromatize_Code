@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="center_horizontal">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:maxLength="32"
+            android:maxLines="1"
+            android:inputType="text"
+            android:id="@+id/edit_text"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp">
+        </EditText>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/confirm_frame"
+        >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@color/white"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:background="@drawable/checked"
+            android:id="@+id/capture_config_confirm_button"
+            />
+    </FrameLayout>
+
+
+
+    </RelativeLayout>
+

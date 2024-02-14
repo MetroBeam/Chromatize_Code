@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <com.flask.colorpicker.ColorPickerView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_marginTop="30dp"
+      android:id="@+id/color_flower_view"/>
+
+ <com.flask.colorpicker.slider.LightnessSlider
+     android:layout_width="match_parent"
+     android:layout_height="40dp"
+     android:id="@+id/lightness"
+     android:layout_below="@+id/color_flower_view"
+     android:layout_above="@+id/confirm_frame"
+     />
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/confirm_frame"
+    >
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@color/white"/>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:background="@drawable/checked"
+        android:id="@+id/confirm_button"
+        />
+</FrameLayout>
+
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|right"
+        android:layout_margin="5dp"
+        android:id="@+id/cross_frame"
+        android:background="@drawable/white_circle">
+        <ImageView
+            android:id="@+id/cross"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/error"/>
+
+    </FrameLayout>
+
+</RelativeLayout>
