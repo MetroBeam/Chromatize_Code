@@ -8,11 +8,11 @@ If you want to try the app out directly, rather than launching the code via Andr
 **App-Use**
 Once you have installed the app you will need to go to app permissions menu in your settings and accept the camera and storage perissions.
 
-The entire inteface of the app lies within 4 different widgets. When you launch it, nothing will happen initially. You need to add at least one of the widgets to your display before the interface displays. 
+The entire interface of the app lies within 4 different widgets. When you launch it, nothing will happen initially. You need to add at least one of the widgets to your display before you can have access to the interface.
 Once you have done this, you will be asked to set a topic and then you can start selecting colours and adding them to your wallpaper.
 
 There are three different ways to select colours, each of which is facilitated in one of the widgets. The fourth widget facilitates all three different colour selection methods.
 
 To add a colour, tap the widget and the interface will open. Note that the colours will only be displayed on your wallpaper after at least four have been selected. So I recommend tapping a colour 4 times initially, to get started.
 
-Enjoy!
+Enjoy! Happy colour catching!
