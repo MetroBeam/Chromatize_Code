@@ -2,7 +2,7 @@ I developed this app for a user study that I carried out for my PhD research. It
 
 The thesis can be found here - https://msds.open.ac.uk/signon/SAMS001_CDC.aspx?URL=https://oro.open.ac.uk/cgi/sams/login?target=https://oro.open.ac.uk/79470/7/Matthew%20Barker%20Thesis%20Final(1).pdf
 
-If you want to try the app out directly, rather than launching the code via Android Studio, here is a link to the APK, which can be opened on an Android phone - https://drive.google.com/file/d/16Sb3VYlgeTQ81xFbfw8DSbz7caMBw0vY/view?usp=drive_link
+If you want to try the app out directly, rather than launching the code via Android Studio, here is a link to the APK file (https://drive.google.com/file/d/16Sb3VYlgeTQ81xFbfw8DSbz7caMBw0vY/view?usp=drive_link). This can be used to install the app on an Android phone when read using a suitable APK reading app. 
 
 
 **App-Use**
@@ -13,6 +13,6 @@ Once you have done this, you will be asked to set a topic and then you can start
 
 There are three different ways to select colours, each of which is facilitated in one of the widgets. The fourth widget facilitates all three different colour selection methods.
 
-To add a colour, tap the widget and the interface will open. Note that the colours will only be displayed oin your wallpaper, once at least four have been added. so tap a colour 4 times initially, to get started.
+To add a colour, tap the widget and the interface will open. Note that the colours will only be displayed on your wallpaper after at least four have been selected. So I recommend tapping a colour 4 times initially, to get started.
 
 Enjoy!
