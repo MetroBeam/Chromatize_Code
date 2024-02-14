@@ -1,4 +1,4 @@
-I developed this app for a user study that I carried out for my PhD research. It is a tool for capturing colours that express experiences durign everyday life.
+I developed this app for a user study that I carried out for my PhD research. It is a tool for capturing colours that express experiences during everyday life. The idea is that this might help the user to stop and reflect on their experiences and explore their meaning.
 
 The thesis can be found here - https://msds.open.ac.uk/signon/SAMS001_CDC.aspx?URL=https://oro.open.ac.uk/cgi/sams/login?target=https://oro.open.ac.uk/79470/7/Matthew%20Barker%20Thesis%20Final(1).pdf
 
