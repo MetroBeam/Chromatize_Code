@@ -1,6 +1,11 @@
 package com.widgetone;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +20,15 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.os.SystemClock;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +37,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class SetWallpaperActivity extends AppCompatActivity {
 
@@ -37,6 +53,12 @@ public class SetWallpaperActivity extends AppCompatActivity {
 
     private String fileName = "";
     private String fileData = "";
+
+    private int loggednotificationTarget = 3;
+    private int appChoiceTarget = 5;
+    private int inactivityTarget = 4;
+    private int compareTarget = 4;
+    FileManager fileManager;
 
 
     @Override
@@ -49,32 +71,65 @@ public class SetWallpaperActivity extends AppCompatActivity {
 
 
 
-        FileManager fileManager = new FileManager(this);
+        fileManager= new FileManager(this);
 
         final ImageView quarterOne = findViewById(R.id.first_quarter);
         final ImageView quarterTwo = findViewById(R.id.second_quarter);
         final ImageView quarterThree = findViewById(R.id.third_quarter);
         final ImageView quarterFour = findViewById(R.id.fourth_quarter);
 
-        fileName = "recorded_colours_history";
 
-        Log.d("log", askPermissionAndReadExtermalFile());
+        String notificationsSchedule = fileManager.readInternalStringFile("notification_schedule");
+        final String [] notificationsArray = notificationsSchedule.split("~");
 
-        String colour_list [] = askPermissionAndReadExtermalFile().split(",");
-        if (colour_list.length > 6) {
 
-            quarterOne.setBackgroundColor(Integer.parseInt(colour_list[1]));
-            quarterTwo.setBackgroundColor(Integer.parseInt(colour_list[3]));
-            quarterThree.setBackgroundColor(Integer.parseInt(colour_list[5]));
-            quarterFour.setBackgroundColor(Integer.parseInt(colour_list[7]));
+
+                String colourList [] = fileManager.readInternalStringFile("recorded_colours_history").split("~");
+
+        int colorOne = Integer.parseInt(colourList[2]);
+
+
+
+
+        if (colourList.length > 10) {
+
+
+            if (!colourList[2].equals("999999")) {
+                quarterOne.setBackgroundColor(Integer.parseInt(colourList[2]));
+            }
+
+            if (!colourList[5].equals("999999")) {
+                quarterTwo.setBackgroundColor(Integer.parseInt(colourList[5]));
+            }
+
+            if (!colourList[8].equals("999999")) {
+                quarterThree.setBackgroundColor(Integer.parseInt(colourList[8]));
+            }
+
+            if (!colourList[11].equals("999999")) {
+                quarterFour.setBackgroundColor(Integer.parseInt(colourList[11]));
+            }
+
+            if (colourList[2].equals("999999")) {
+            quarterOne.setBackgroundColor(Color.WHITE);
+            }
+            if (colourList[5].equals("999999")) {
+                quarterTwo.setBackgroundColor(Color.WHITE);
+            }
+            if (colourList[8].equals("999999")) {
+                quarterThree.setBackgroundColor(Color.WHITE);
+            }
+            if (colourList[11].equals("999999")) {
+                quarterFour.setBackgroundColor(Color.WHITE);
+            }
 
         }
 
         final WallpaperManager myWallpaperManager
                 = WallpaperManager.getInstance(getApplicationContext());
 
-        CountDownTimer countDownTimer = new CountDownTimer(2000, 1000) {
-
+        CountDownTimer countDownTimer = new CountDownTimer(1000, 1000) {
+    // I could probably remove this completely
 
             @Override
             public void onTick(long l) {
@@ -84,10 +139,9 @@ public class SetWallpaperActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
 
-                LinearLayout view = findViewById(R.id.wallpaper);
+                RelativeLayout view = findViewById(R.id.wallpaper);
 
                 int width = view.getWidth();
-                Log.d("lala", Integer.toString(width));
 
                 Bitmap b = setViewToBitmapImage(view);
 
@@ -100,14 +154,72 @@ public class SetWallpaperActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(context, MainActivity.class);
+
+
+                if (Integer.parseInt(notificationsArray[6]) > 22) {
+
+                    if (Integer.parseInt(notificationsArray[4]) > loggednotificationTarget - 1) {
+                        notificationsArray[4] = "0";
+                        intent.putExtra("logged_note", "logged_note");
+                    } else {
+
+
+                        if (Integer.parseInt(notificationsArray[5]) > appChoiceTarget - 1) {
+                            notificationsArray[5] = "0";
+                            sendNotification("widget_choice");
+                            intent.putExtra("widget_choice", "widget_choice");
+
+                        }
+                    }
+
+                }
+
+                else if  ((Integer.parseInt(notificationsArray[6]) == 4)||(Integer.parseInt(notificationsArray[6]) == 5)|| (Integer.parseInt(notificationsArray[6]) == 11)||(Integer.parseInt(notificationsArray[6]) == 12)) {
+                     if (Integer.parseInt(notificationsArray[0]) > compareTarget - 1) {
+                    // need to re-add this
+                    notificationsArray[0] = "0";
+                    //sendNotification("colour_logged");
+                    intent.putExtra("comparing_widgets", "comparing_widgets");
+                     }
+
+                }
+
+                else  {
+                    Log.d("other cases", "onFinish: ");
+                    if (Integer.parseInt(notificationsArray[1])> inactivityTarget-1) {
+                        intent.putExtra("inactivity", "inactivity");
+                        notificationsArray[4] = "2";
+
+
+                    }
+                    else {
+                        if (Integer.parseInt(notificationsArray[4]) > loggednotificationTarget - 1) {
+                            notificationsArray[4] = "0";
+                            intent.putExtra("logged_note", "logged_note");
+                        }
+
+                    }
+                }
+
+                 String scheduleReplacement ="";
+
+                notificationsArray[1] = "0";
+                for (int x = 0; x < notificationsArray.length; x++) {
+                    scheduleReplacement = scheduleReplacement + notificationsArray[x] + "~";
+                }
+                fileManager.createInternalStringFile(scheduleReplacement, "notification_schedule");
+
+
+
+
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("Exit me", true);
                 startActivity(intent);
                 finish();
-            }
-        };
 
-        countDownTimer.start();
+            }
+        }.start();
+
+
 
     }
 
@@ -144,151 +256,36 @@ public class SetWallpaperActivity extends AppCompatActivity {
         }
 
     }
-    private void askPermissionAndWriteExternalFile() {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-            this.writeFile();
-        }
-    }
-
-    private String askPermissionAndReadExtermalFile() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        //
-        String fileData = "";
-        if (canRead) {
-         fileData = this.readFile();
-        }
-        return fileData;
-    }
-
-    // With Android Level >= 23, you have to ask the user
-    // for permission with device (For example read/write data on the device).
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-
-            // Check if we have permission
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
 
 
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
-    }
 
 
-    // When you have the request results
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void sendNotification (String notificationType) {
+        Intent notificationIntent = new Intent(this, DiaryActivity.class);
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-        // Note: If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        readFile();
-                    }
-                }
-                case REQUEST_ID_WRITE_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        writeFile();
-                    }
-                }
-            }
-        } else {
-            }
-    }
+        notificationIntent.putExtra(notificationType, "notification");
 
 
-    private void writeFile() {
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this); // is this the best way?
+        stackBuilder.addParentStack(DiaryActivity.class);
+        stackBuilder.addNextIntent(notificationIntent);
 
-        File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
-        String path = extStore.getAbsolutePath() + "/" + fileName;
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
 
-        String data = fileData;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        try {
-            File myFile = new File(path);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-            myOutWriter.close();
-            fOut.close();
+        Notification notification = builder.setContentTitle("Question from Matt")
+                .setContentText("Questions from Matt")
+                .setTicker("New Message Alert!")
+                .setSmallIcon(R.mipmap.ic_launcher) // set image of Me as image.
+                .setContentIntent(pendingIntent).build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String readFile() {
-
-        File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
-        String path = extStore.getAbsolutePath() + "/" + fileName;
-
-        String s = "";
-        String fileContent = "";
-        try {
-            File myFile = new File(path);
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-
-            while ((s = myReader.readLine()) != null) {
-                fileContent += s + "\n";
-            }
-            myReader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return fileContent;
-    }
-
-    private void listExternalStorages() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Data Directory: ").append("\n - ")
-                .append(Environment.getDataDirectory().toString()).append("\n");
-
-        sb.append("Download Cache Directory: ").append("\n - ")
-                .append(Environment.getDownloadCacheDirectory().toString()).append("\n");
-
-        sb.append("External Storage State: ").append("\n - ")
-                .append(Environment.getExternalStorageState().toString()).append("\n");
-
-        sb.append("External Storage Directory: ").append("\n - ")
-                .append(Environment.getExternalStorageDirectory().toString()).append("\n");
-
-        sb.append("Is External Storage Emulated?: ").append("\n - ")
-                .append(Environment.isExternalStorageEmulated()).append("\n");
-
-        sb.append("Is External Storage Removable?: ").append("\n - ")
-                .append(Environment.isExternalStorageRemovable()).append("\n");
-
-        sb.append("External Storage Public Directory (Music): ").append("\n - ")
-                .append(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString()).append("\n");
-
-        sb.append("Download Cache Directory: ").append("\n - ")
-                .append(Environment.getDownloadCacheDirectory().toString()).append("\n");
-
-        sb.append("Root Directory: ").append("\n - ")
-                .append(Environment.getRootDirectory().toString()).append("\n");
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
+        Log.d("notification", "sendNotification: ");
 
     }
+
+
 }

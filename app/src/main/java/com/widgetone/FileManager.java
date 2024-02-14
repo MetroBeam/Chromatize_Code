@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ import java.io.OutputStreamWriter;
         private final String fileName = "note.txt";
         Context context;
 
-        public FileManager(Context context) {
+            public FileManager(Context context) {
             this.context = context;
         }
 

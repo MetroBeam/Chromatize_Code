@@ -3,11 +3,26 @@
     package="com.widgetone">
 
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.front.autofocus"
+        android:required="false"/>
+
+
+
+
 
     <application
         android:allowBackup="true"
@@ -19,21 +34,64 @@
 
 
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait"/>
             </intent-filter>
+
         </activity>
 
+
+        <activity android:name=".MultipleMainActivity"
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true"/>
+        <meta-data
+            android:name="android.support.MultipleButtonMain"
+            android:value=".MultipleButtonMain" />
+
+
+
+        <activity android:name=".FlowerMainActivity"
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true"/>
+        <meta-data
+            android:name="android.support.FlowerMainActivity"
+            android:value=".FlowerMainActivity" />
+
+
+        <activity android:name=".CaptureMainActivity"
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true"/>
+        <meta-data
+            android:name="android.support.CaptureMainActivity"
+            android:value=".CaptureMainActivity" />
+
+
         <activity android:name=".SetWallpaperActivity"
-            android:parentActivityName="com.widgetone.MainActivity">
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.SetWallpaperActivity"
                 android:value=".SetWallpaperActivity" />
         </activity>
 
-        <receiver android:name="com.widgetone.NewAppWidget">
+        <receiver android:name="com.widgetone.MultipleButtonWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -43,30 +101,120 @@
                 android:resource="@xml/new_app_widget_info" />
         </receiver>
 
-        <activity android:name=".ConfigActivity">
+        <receiver android:name="com.widgetone.FlowerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/flower__widget_info" />
+        </receiver>
+
+
+        <receiver android:name="com.widgetone.TripleWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/triple_widget_info" />
+        </receiver>
+
+
+        <receiver android:name="com.widgetone.CaptureWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/capture_app_widget_info" />
+        </receiver>
+
+
+        <activity android:name=".MultipleConfigActivity"
+            android:noHistory="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"
+                    />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".TripleWidgetConfig"
+            android:noHistory="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"
+                    />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".FlowerConfigActivity"
+            android:noHistory="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".CaptureConfigActivity"
+            android:noHistory="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
 
-
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName="com.widgetone.MainActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.SetWallpaperActivity"
-                android:value=".SetWallpaperActivity" />
-        </activity>
-
         <activity android:name=".DiaryActivity"
-            android:parentActivityName="com.widgetone.MainActivity">
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
             <meta-data
                 android:name="android.support.DiaryActivity"
                 android:value=".DiaryActivity" />
-
         </activity>
 
+
+        <activity android:name=".ColorOverView"
+            android:noHistory="true"
+            android:parentActivityName="com.widgetone.DiaryActivity"
+        android:configChanges="orientation"
+        android:screenOrientation="portrait"
+            android:finishOnTaskLaunch="true">
+        <meta-data
+            android:name="android.support.ColorOverview"
+            android:value=".ColorOverview" />
+        </activity>
+
+        <receiver android:name=".RegularAlarmReceiver">
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_REGULAR_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".SampleBootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
 
 
     </application>

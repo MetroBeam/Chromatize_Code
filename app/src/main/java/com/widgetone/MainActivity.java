@@ -1,32 +1,26 @@
 package com.widgetone;
 
-import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.util.Log;
 
+import org.opencv.android.OpenCVLoader;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private FileManager fileManager;
-
 
 
     private static final int REQUEST_ID_READ_PERMISSION = 100;
@@ -36,268 +30,172 @@ public class MainActivity extends AppCompatActivity {
     private String fileData = "";
 
 
-    private String selectedColour;
+    AlarmManager alarmManager;
+
+    private String selectedColour = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Context context = this;
 
-        ImageView tick = findViewById(R.id.tick);
-        ImageView cross = findViewById(R.id.cross);
 
         fileManager = new FileManager(this);
+        String notificationSchedule = "";
+
+        notificationSchedule = fileManager.readInternalStringFile("notification_schedule");
+        String[] scheduleArray = notificationSchedule.split("~");
+        String scheduleReplacement = "";
+        if (notificationSchedule.length() == 0) {
+            String firstSchedule = "0~" + "0~" + "0~" + "0~" + "2~" + "0~" + "0~"; //comparison, inactivity, topic, colours, logged, choice, overall
+            fileManager.createInternalStringFile(firstSchedule, "notification_schedule");
+           // startAlarms();
+            Log.d("alarms_started", "onCreate: ");
+        }
+
+       int lastDate = 0;
+        if (fileManager.readInternalStringFile("last_date").length()>0){
+            lastDate = Integer.parseInt(fileManager.readInternalStringFile("last_date"));
+            int date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            if (lastDate!=date) {
 
 
+                if (date<lastDate) {
+                    Log.d("date", Integer.toString(Calendar.getInstance().get(Calendar.MONTH)));
 
-        TextView selectedColourView = findViewById(R.id.selected_colour);
+                    if (Calendar.getInstance().get(Calendar.MONTH) == 10) {
+                        date = date + 31;
+                    }
+                    if (Calendar.getInstance().get(Calendar.MONTH) == 11) {
+                        date = date + 30;
+                    }
+                }
 
+                int differential = date - lastDate;
+
+                for (int x = 0; x < scheduleArray.length; x++) {
+                    Log.d("logged", "logged");
+                    int replacementInt = Integer.parseInt(scheduleArray[x]);
+                    replacementInt = replacementInt + differential;
+                    scheduleReplacement = scheduleReplacement + replacementInt + "~";
+                }
+
+                fileManager.createInternalStringFile(scheduleReplacement,"notification_schedule");
+                String newDate = Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                fileManager.createInternalStringFile(newDate, "last_date");
+
+            }
+
+
+        }
+        else {
+            String date = Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            fileManager.createInternalStringFile(date,"last_date");
+        }
+
+        startAlarms();
         Intent intent = getIntent();
 
-        selectedColour = "-1";
+        String extra = "";
 
 
-        if( getIntent().hasExtra("Exit me")){
-            finish();
-            return; // add this to prevent from doing unnecessary stuffs
+        if (getIntent().hasExtra("multiple")) {
+            extra = "multiple";
+
+            final String fullExtra = intent.getStringExtra("multiple");
+            Log.d("fullExtra", fullExtra);
+
+            Intent multipleActivityIntent = new Intent(MainActivity.this, MultipleMainActivity.class);
+
+            multipleActivityIntent.putExtra("multiple", fullExtra);
+            startActivity(multipleActivityIntent);
+        }
+
+        if (getIntent().hasExtra("flower")) {
+            extra = "flower";
+            
+            Intent flowerActivityIntent = new Intent(MainActivity.this, FlowerMainActivity.class);
+            startActivity(flowerActivityIntent);
         }
 
 
-        if (getIntent().hasExtra("button")) {
+        if (getIntent().hasExtra("capture")) {
+            extra = "capture";
 
-
-            final String buttonIndex = intent.getStringExtra("button");
-
-
-            String colourSet[] = fileManager.readInternalStringFile("current_preset_colours").split(",");
-
-
-            switch (buttonIndex) {
-                case "0":
-                    selectedColour = colourSet[0];
-                    break;
-                case "1":
-                    selectedColour = colourSet[1];
-                    break;
-                case "2":
-                    selectedColour = colourSet[2];
-                    break;
-                case "3":
-                    selectedColour = colourSet[3];
-                    break;
-                case "4":
-                    selectedColour = colourSet[4];
-                    break;
-
-
-            }
-
-            selectedColourView.setBackgroundColor(Integer.parseInt(selectedColour));
+            Intent flowerActivityIntent = new Intent(MainActivity.this, CaptureMainActivity.class);
+            startActivity(flowerActivityIntent);
         }
 
 
+        if (getIntent().hasExtra("logged_note")) {
 
 
-
-            tick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String timeString;
-
-                    fileName = "recorded_colours_history";
-
-                    timeString = Calendar.getInstance().getTime().toString();
-                    String currentFileString = askPermissionAndReadExtermalFile();
-
-
-                    fileData = timeString + "," + selectedColour + "," + currentFileString;
-
-
-                    askPermissionAndWriteExternalFile();
-
-
-                    Intent nextActivity = new Intent(context, SetWallpaperActivity.class);
-                    startActivity(nextActivity);
-
-
-                }
-            });
-
-
-            cross.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                    return;
-
-                }
-            });
-
-
-        } /*else {
-            tick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                    return;
-
-
-                }
-            });
-            */
-
-    private void askPermissionAndWriteExternalFile() {
-        boolean canWrite = this.askPermission(REQUEST_ID_WRITE_PERMISSION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        //
-        if (canWrite) {
-            this.writeFile();
+            Intent loggedIntent = new Intent(MainActivity.this, DiaryActivity.class);
+            loggedIntent.putExtra("colour_logged", "notification");
+            startActivity(loggedIntent);
         }
+
+        if (getIntent().hasExtra("comparing_widgets")) {
+
+
+            Intent compareIntent = new Intent(MainActivity.this, DiaryActivity.class);
+            compareIntent.putExtra("comparing_widgets", "comparing_widgets");
+            startActivity(compareIntent);
+        }
+
+        if (getIntent().hasExtra("inactivity")) {
+
+            Intent inactivityIntent = new Intent(MainActivity.this, DiaryActivity.class);
+            inactivityIntent.putExtra("inactivity", "inactivity");
+            startActivity(inactivityIntent);
+        }
+        Log.d("extra", extra);
+
+        finish();
+        return; // add this to prevent from doing unnecessary stuffs
+
+
+
     }
 
-    private String askPermissionAndReadExtermalFile() {
-        boolean canRead = this.askPermission(REQUEST_ID_READ_PERMISSION,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        //
-        String fileData = "";
-        if (canRead) {
-            fileData = this.readFile();
-        }
-        return fileData;
-    }
+    public void workerRequest() {
 
-    // With Android Level >= 23, you have to ask the user
-    // for permission with device (For example read/write data on the device).
-    private boolean askPermission(int requestId, String permissionName) {
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
+        WorkManager mWorkManager = WorkManager.getInstance();
 
-            // Check if we have permission
-            int permission = ActivityCompat.checkSelfPermission(this, permissionName);
-
-
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // If don't have permission so prompt the user.
-                this.requestPermissions(
-                        new String[]{permissionName},
-                        requestId
-                );
-                return false;
-            }
-        }
-        return true;
+       //OneTimeWorkRequest mRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class).build();
     }
 
 
-    // When you have the request results
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void startAlarms() {
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //
-        // Note: If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0) {
-            switch (requestCode) {
-                case REQUEST_ID_READ_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        readFile();
-                    }
-                }
-                case REQUEST_ID_WRITE_PERMISSION: {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        writeFile();
-                    }
-                }
-            }
-        } else {
-        }
-    }
+        Log.d("loghouse", "startAlarms: ");
+        Intent alarmIntent = new Intent("android.media.action.DISPLAY_REGULAR_NOTIFICATION");
+        alarmIntent.addCategory("android.intent.category.DEFAULT");
+        PendingIntent regularPendingIntent = PendingIntent.getBroadcast(this,200, alarmIntent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        final int random = new Random().nextInt((16 - 11) + 1) + 11;
+
+        Log.d("alarmTime", Integer.toString(random));
+
+        PendingIntent sender = PendingIntent.getBroadcast(this,200,alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(sender);
+
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, random); // change to 19
+        calendar.set(Calendar.MINUTE, 00);
 
 
-    private void writeFile() {
-
-        File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
-        String path = extStore.getAbsolutePath() + "/" + fileName;
-
-        String data = fileData;
-
-        try {
-            File myFile = new File(path);
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-            myOutWriter.close();
-            fOut.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String readFile() {
-
-        File extStore = Environment.getExternalStorageDirectory();
-        // ==> /storage/emulated/0/note.txt
-        String path = extStore.getAbsolutePath() + "/" + fileName;
-
-        String s = "";
-        String fileContent = "";
-        try {
-            File myFile = new File(path);
-            FileInputStream fIn = new FileInputStream(myFile);
-            BufferedReader myReader = new BufferedReader(
-                    new InputStreamReader(fIn));
-
-            while ((s = myReader.readLine()) != null) {
-                fileContent += s + "\n";
-            }
-            myReader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return fileContent;
-    }
-
-    private void listExternalStorages() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Data Directory: ").append("\n - ")
-                .append(Environment.getDataDirectory().toString()).append("\n");
-
-        sb.append("Download Cache Directory: ").append("\n - ")
-                .append(Environment.getDownloadCacheDirectory().toString()).append("\n");
-
-        sb.append("External Storage State: ").append("\n - ")
-                .append(Environment.getExternalStorageState().toString()).append("\n");
-
-        sb.append("External Storage Directory: ").append("\n - ")
-                .append(Environment.getExternalStorageDirectory().toString()).append("\n");
-
-        sb.append("Is External Storage Emulated?: ").append("\n - ")
-                .append(Environment.isExternalStorageEmulated()).append("\n");
-
-        sb.append("Is External Storage Removable?: ").append("\n - ")
-                .append(Environment.isExternalStorageRemovable()).append("\n");
-
-        sb.append("External Storage Public Directory (Music): ").append("\n - ")
-                .append(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString()).append("\n");
-
-        sb.append("Download Cache Directory: ").append("\n - ")
-                .append(Environment.getDownloadCacheDirectory().toString()).append("\n");
-
-        sb.append("Root Directory: ").append("\n - ")
-                .append(Environment.getRootDirectory().toString()).append("\n");
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*10 , regularPendingIntent);
 
     }
 
 
-        }
+}
 
 
 

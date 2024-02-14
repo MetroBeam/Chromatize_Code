@@ -1,5 +1,113 @@
 <resources>
-    <string name="app_name">Multiple_Button_Widget</string>
+    <string name="app_name">Colourize</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+
+    <string name="logged_experience_1">You just logged a colour. Where were you when you logged it?</string>
+    <string name="logged_experience_1_1">At home</string>
+    <string name="logged_experience_1_2">At work</string>
+    <string name="logged_experience_1_3">Out and about</string>
+    <string name="logged_experience_1_4">Other</string>
+
+
+    <string name="logged_experience_2">Who was around?</string>
+    <string name="logged_experience_2_1">People I know</string>
+    <string name="logged_experience_2_2">People I don\'t know</string>
+    <string name="logged_experience_2_3">Nobody</string>
+
+
+
+    <string name="logged_experience_3">Why did you choose to log at this exact moment?</string>
+    <string name="logged_experience_3_1">It was the moment when the experience happened</string>
+    <string name="logged_experience_3_2">I waited for a convenient time to use the app</string>
+    <string name="logged_experience_3_3">Because I was alone</string>
+    <string name="logged_experience_3_4">The app caught my attention</string>
+    <string name="logged_experience_3_5">Other</string>
+
+
+    <string name="logged_experience_4">How easy/difficult was it to log a colour in this situation?</string>
+    <string name="logged_experience_4_1">Easy</string>
+    <string name="logged_experience_4_2">Ok</string>
+    <string name="logged_experience_4_3">Difficult</string>
+
+
+
+    <string name="logged_experience_5">Why did you choose this colour?</string>
+    <string name="logged_experience_5_1">The colour fits the experience I wanted to log</string>
+    <string name="logged_experience_5_2">The colour caught my attention</string>
+    <string name="logged_experience_5_3">I like this colour</string>
+    <string name="logged_experience_5_4">Other</string>
+
+
+
+
+    <string name="logged_experience_6">Did using the app make you question the way you think about something?</string>
+    <string name="logged_experience_6_1">Yes</string>
+    <string name="logged_experience_6_2">No</string>
+    <string name="logged_experience_6_3">I\'m not sure</string>
+
+
+
+    <string name="logged_experience_7">At what point did this happen?</string>
+    <string name="logged_experience_7_1">Before I thought about logging it</string>
+    <string name="logged_experience_7_2">When I thought of using the app</string>
+    <string name="logged_experience_7_3">When I chose a colour in my mind</string>
+    <string name="logged_experience_7_4">While I was selecting the colour in the app</string>
+    <string name="logged_experience_7_5">After I finsihed using the app</string>
+    <string name="logged_experience_7_6">Other</string>
+
+    <string name="logged_experience_8">How did you feel when logging the colour?</string>
+
+
+
+    <string name="widget_choice">Why did you choose to use this app version to log the colour?</string>
+    <string name="widget_choice_1">The other ones wouldn’t work for this type of experience</string>
+    <string name="widget_choice_2">This one is set up for the relevant topic</string>
+    <string name="widget_choice_3">I just prefer this one</string>
+    <string name="widget_choice_4">Other</string>
+
+
+    <string name="colours_choice">You just changed your colours. Why was this?</string>
+    <string name="colours_choice_1">These colours are better for my topic</string>
+    <string name="colours_choice_2"> I want different colours on my phone’s background</string>
+    <string name="colours_choice_3">I want to try something new</string>
+    <string name="colours_choice_4">Other</string>
+
+
+
+
+    <string name="title_choice">You just set a new topic. Why was this?</string>
+    <string name="title_choice_1">I want a topic that matters to me</string>
+    <string name="title_choice_2">To make a small change to the wording of the topic</string>
+    <string name="title_choice_3">The previous topic didn’t work for me</string>
+    <string name="title_choice_4">Other</string>
+
+
+    <string name="comparing_widgets">How does the version of the app you are now using compare with the last one you tried?</string>
+    <string name="comparing_widgets_1">Worse</string>
+    <string name="comparing_widgets_2">Similar</string>
+    <string name="comparing_widgets_3">Better</string>
+
+
+    <string name="inactivity">You didn’t use the app in the last few days. Is there any particular reason for this?</string>
+    <string name="inactivity_1">I forgot about it</string>
+    <string name="inactivity_2">It don’t like using it</string>
+    <string name="inactivity_3">I haven’t had the opportunity to use it</string>
+    <string name="inactivity_4">It’s too difficult to use</string>
+    <string name="inactivity_5">Other</string>
+
+    <string name="inactivityy">This is the first time you\'ve used the app in a while. Is there any particular reason for this?</string>
+    <string name="inactivityy_1">I forgot about it</string>
+    <string name="inactivityy_2">It don’t like using it</string>
+    <string name="inactivityy_3">I haven’t had the opportunity to use it</string>
+    <string name="inactivityy_4">It’s too difficult to use</string>
+    <string name="inactivityy_5">Other</string>
+
+
+    <string name="general_experience_a">Any feedback or thoughts?</string>
+
+    <string name="general_experience_b">Any other feedback or thoughts?</string>
+
+
 </resources>
