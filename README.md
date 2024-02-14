@@ -2,7 +2,7 @@ I developed this app for a user study that I carried out for my PhD research. It
 
 The thesis can be found here - https://msds.open.ac.uk/signon/SAMS001_CDC.aspx?URL=https://oro.open.ac.uk/cgi/sams/login?target=https://oro.open.ac.uk/79470/7/Matthew%20Barker%20Thesis%20Final(1).pdf
 
-If you want to try the app out directly, here is a link to the APK, which can be opened on an Android phone - https://drive.google.com/file/d/16Sb3VYlgeTQ81xFbfw8DSbz7caMBw0vY/view?usp=drive_link
+If you want to try the app out directly, rather than launching the code via Android Studio, here is a link to the APK, which can be opened on an Android phone - https://drive.google.com/file/d/16Sb3VYlgeTQ81xFbfw8DSbz7caMBw0vY/view?usp=drive_link
 
 
 **App-Use**
